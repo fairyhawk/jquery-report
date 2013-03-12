@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>个人工作台统计</title>
+  
+  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+
+  <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
+  <link rel="stylesheet" type="text/css" href="examples/examples.css" />
+
+  <!-- BEGIN: load jquery -->
+  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+  <!-- END: load jquery -->
+
+  <!-- BEGIN: load jqplot -->
+
+    <script language="javascript" type="text/javascript" src="../jquery.jqplot.js"></script>
+	<script language="javascript" type="text/javascript" src="../plugins/jqplot.categoryAxisRenderer.js"></script>
+	<script language="javascript" type="text/javascript" src="../plugins/jqplot.dateAxisRenderer.js"></script>
+	<script language="javascript" type="text/javascript" src="../plugins/jqplot.barRenderer.js"></script>
+	<script language="javascript" type="text/javascript" src="../plugins/jqplot.pointLabels.js"></script>
+	<script language="javascript" type="text/javascript" src="../plugins/jqplot.enhancedLegendRenderer.js"></script>
+
+  <!-- END: load jqplot -->
+
+  <script type="text/javascript" language="javascript">
+ $(document).ready(function(){
+      var dataline = new Array();
+      //取消量 aTongjiGroupList.getCancleCount() + aTongjiGroupList.getBackCancleCount()
+     line1 = [['首次咨询', 4], ['库存回访', 9], ['常规回访', 9],['二次回访', 16]];//取消量
+	line2 = [['首次咨询', 3], ['库存回访', 7], ['常规回访', 6],['二次回访', 16]];//货到成单
+	line3 = [['首次咨询', 5], ['库存回访', 1], ['常规回访', 3], ['二次回访', 7]];//汇款成单
+	line4 = [['首次咨询', 2], ['库存回访', 5], ['常规回访', 4], ['二次回访', 9]];//货到成单
+	line5 = [['首次咨询', 2], ['库存回访', 5], ['常规回访', 4], ['二次回访', 9]];//网银成单
+	line6 = [['首次咨询', 2], ['库存回访', 5], ['常规回访', 4], ['二次回访', 9]];//接通量
+	line7 = [['首次咨询', 2], ['库存回访', 5], ['常规回访', 4], ['二次回访', 9]];//拨打量
+	line8 = [['首次咨询', 2], ['库存回访', 5], ['常规回访', 4], ['二次回访', 9]];//分配量          
+
+    
+
+	    $.jqplot.config.enablePlugins = true;
+		var minNum=0;//最小值
+		var tnumber=6;//最小和最大之间分为几个阶段
+	
+		plot1 = $.jqplot('chart1',[line1,line2,line3,line4,line5,line6,line7,line8], {
+			/*
+		    seriesDefaults:{
+                renderer:$.jqplot.BarRenderer,
+                rendererOptions:{barPadding:5, barMargin:5}
+            },
+		    legend: {
+                show:true,
+                placement: 'outsideGrid',
+                location: 'nw'
+            },
+		    series:[
+			          {label:'取消量'},
+			          {label:'货到成单'},
+			          {label:'汇款成单'},
+			          {label:'网银成单'},
+			          {label:'接通量'},
+			          {label:'拨打量'},
+			          {label:'分配量'},
+			          {label:'转化率'}
+			        ],
+		    axes:{
+		    	xaxis:{
+		    		renderer:$.jqplot.CategoryAxisRenderer,
+		    		rendererOptions:{sortMergedLabels:true}
+		    		},
+		    	yaxis:{
+		    		min:minNum,
+                    numberTicks:tnumber+1,
+                    tickOptions: {
+                       formatString: '%d'
+                     }
+                }
+		    }*/
+		    //
+		    series:[
+		  {renderer:$.jqplot.BarRenderer}, 
+		  {xaxis:'x2axis', yaxis:'y2axis'}
+		  ],
+		  axesDefaults: {
+		      tickRenderer: $.jqplot.CanvasAxisTickRenderer 
+  },
+  axes: {
+    xaxis: {
+      renderer: $.jqplot.CategoryAxisRenderer
+    },
+    x2axis: {
+      renderer: $.jqplot.CategoryAxisRenderer
+    },
+    yaxis: {
+      autoscale:true
+    },
+    y2axis: {
+      autoscale:true
+    }
+  }
+		    //
+                   
+		});
+	});
+  </script>
+  </head>
+  <body>
+    <div id="chart1" style="margin-top:10px; margin-left:0px; width:830px; height:450px;"></div>
+  </body>
+</html>

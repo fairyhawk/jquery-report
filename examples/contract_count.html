@@ -1,0 +1,96 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
+  <link rel="stylesheet" type="text/css" href="examples.css" /> 
+  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.min.js"></script><![endif]-->
+  <!-- BEGIN: load jquery -->
+  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.min.js"></script> 
+  <!-- END: load jquery --> 
+  <!-- BEGIN: load jqplot -->
+  <script language="javascript" type="text/javascript" src="../jquery.jqplot.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.cursor.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.dateAxisRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.canvasTextRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.categoryAxisRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.pieRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.barRenderer.js"></script>
+ <script language="javascript" type="text/javascript" src="../plugins/jqplot.canvasAxisTickRenderer.js"></script>
+
+	<style type="text/css">
+	  .jqplot-cursor-legend {
+	    width: 160px;
+	    font-family: "Courier New";
+	    font-size: 0.85em;
+	  }
+	  
+	  td.jqplot-cursor-legend-swatch {
+	    width: 1.3em;
+	  }
+	  
+	  div.jqplot-cursor-legend-swatch {
+/*      width: 15px;*/
+	  }
+	</style>
+	
+	<script type="text/javascript" language="javascript">
+		$(document).ready(function(){
+	      	$.jqplot.config.enablePlugins = true;
+	      	var yaxismin=0;//全部订单起始x坐标
+	      	var y2axismin=0;//支付订单起始x坐标
+	      	var numberTicksmax=8;//x坐标行数
+			 //全部订单 
+			 var InPr = [['09/01/2011',300],['09/02/2011',400],['09/03/2011',431],['09/04/2011',61],['09/05/2011',321],['09/06/2011',322],['09/07/2011',620],['09/08/2011',298],['09/09/2011',100],['09/10/2011',200],['09/11/2011',231],['09/12/2011',120],['09/13/2011',121],['09/14/2011',100],['09/15/2011',200],['09/16/2011',231],['09/17/2011',158],['09/18/2011',100],['09/19/2011',200],['09/20/2011',100],['09/21/2011',200],['09/22/2011',231],['09/23/2011',21],['09/24/2011',100],['09/25/2011',200],['09/26/2011',231],['09/27/2011',21],['09/28/2011',121],['09/29/2011',122],['09/30/2011',520]];
+
+			//支付成功的订单
+			var OutPr = [['09/01/2011',180],['09/02/2011',110],['09/03/2011',241],['09/04/2011',31],['09/05/2011',131],['09/06/2011',132],['09/07/2011',530],['09/08/2011',222],['09/09/2011',110],['09/10/2011',210],['09/11/2011',241],['09/12/2011',130],['09/13/2011',131],['09/14/2011',110],['09/15/2011',210],['09/16/2011',241],['09/17/2011',168],['09/18/2011',110],['09/19/2011',210],['09/20/2011',110],['09/21/2011',210],['09/22/2011',241],['09/23/2011',31],['09/24/2011',110],['09/25/2011',210],['09/26/2011',241],['09/27/2011',31],['09/28/2011',131],['09/29/2011',132],['09/30/2011',530]];
+ 
+	      var ticks = ['09/01/2011', '09/02/2011', '09/03/2011', '09/04/2011', '09/05/2011', '09/06/2011', '09/07/2011', '09/08/2011', '09/09/2011', '09/10/2011', '09/11/2011', '09/12/2011', '09/13/2011',
+	      '09/14/2011','09/15/2011','09/16/2011','09/17/2011','09/18/2011','09/19/2011','09/20/2011','09/21/2011','09/22/2011','09/23/2011','09/24/2011','09/25/2011','09/26/2011','09/27/2011','09/28/2011','09/29/2011','09/30/2011'];
+	      plot1 = $.jqplot('chart1', [InPr, OutPr], {
+	      	title: '订单统计一览图', //标题
+	      	
+	        //seriesDefaults:{neighborThreshold:0, showMarker: false},// fill:true 阴影显示 注释掉后会显示点
+	        series:[
+	          {label:'全部订单'},
+	          {label:'支付成功', yaxis:'y2axis'}
+	        ],
+	        cursor:{
+	          showVerticalLine:true,//是否显示竖线
+	          showTooltip: true,//鼠标移动时是否显示订单量
+	          followMouse: false,//订单量是否跟随鼠标移动，false显示在右下角，true随鼠标移动
+	          showTooltipDataPosition:true,
+	          zoom:false,//是否允许局部分析
+	          intersectionThreshold:6,
+	          tooltipFormatString: '%s 下单时间:%s, 订单数量:%s'
+	        },
+	        legend:{
+	        	show: true,//显示 全部订单 支付成功
+	            location:'nw'
+	        },
+	        axesDefaults:{},
+	        axes: { 
+               yaxis: {min: yaxismin, numberTicks:numberTicksmax},//全部订单起始x坐标
+	           y2axis:{min: y2axismin, numberTicks:numberTicksmax},//支付订单起始x坐标
+	           xaxis: {
+	              renderer:$.jqplot.DateAxisRenderer, 
+	              rendererOptions: {
+           			tickRenderer: $.jqplot.CanvasAxisTickRenderer//日期要斜着显示，需要配置此项目
+         		  },
+	              //ticks: ticks,
+	              tickOptions:{
+	              	formatString:'%m/%d',
+                    fontFamily:'Tahoma',
+                    angle:-30 // 日期旋转角度
+	              }  ,
+	              tickInterval: "1 days"
+	          }
+	      } 
+      }); 
+      
+    });
+</script> 	
+</head>
+<body> 
+<div class="jqPlot" id="chart1" style="height:320px; width:1300px;"></div> 
+</body> 
+</html>

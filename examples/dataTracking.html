@@ -1,0 +1,98 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
+  <link rel="stylesheet" type="text/css" href="examples.css" />
+  
+  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.min.js"></script><![endif]-->
+  <!-- BEGIN: load jquery -->
+  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+
+  <!-- END: load jquery -->
+  
+  <!-- BEGIN: load jqplot -->
+  <script language="javascript" type="text/javascript" src="../jquery.jqplot.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.cursor.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.dateAxisRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.canvasTextRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.categoryAxisRenderer.js"></script>
+		<script language="javascript" type="text/javascript" src="../plugins/jqplot.pieRenderer.js"></script>
+	
+	<style type="text/css">
+	  .jqplot-cursor-legend {
+	    width: 160px;
+	    font-family: "Courier New";
+	    font-size: 0.85em;
+	  }
+	  
+	  td.jqplot-cursor-legend-swatch {
+	    width: 1.3em;
+	  }
+	  
+	  div.jqplot-cursor-legend-swatch {
+/*      width: 15px;*/
+	  }
+	</style>
+	
+	<script type="text/javascript" language="javascript">
+		$(document).ready(function(){
+	      	$.jqplot.config.enablePlugins = true;
+	      	var yaxismin=0;//全部订单起始x坐标
+	      	var y2axismin=0;//支付订单起始x坐标
+	      	var numberTicksmax=8;//x坐标行数
+			 //全部订单 
+			 var InPr = [['09/01/11',300],['09/02/11',400],['09/03/11',431],['09/04/11',61],['09/05/11',321],['09/06/11',322],['09/07/11',620],['09/08/11',298],['09/09/11',100],['09/10/11',200],['09/11/11',231],['09/12/11',120],['09/13/11',121],['09/14/11',100],['09/15/11',200],['09/16/11',231],['09/17/11',158],['09/18/11',100],['09/19/11',200],['09/20/11',100],['09/21/11',200],['09/22/11',231],['09/23/11',21],['09/24/11',100],['09/25/11',200],['09/26/11',231],['09/27/11',21],['09/28/11',121],['09/29/11',122],['09/30/11',520]];
+
+			//支付成功的订单
+			var OutPr = [['09/01/11',180],['09/02/11',110],['09/03/11',241],['09/04/11',31],['09/05/11',131],['09/06/11',132],['09/07/11',530],['09/08/11',222],['09/09/11',110],['09/10/11',210],['09/11/11',241],['09/12/11',130],['09/13/11',131],['09/14/11',110],['09/15/11',210],['09/16/11',241],['09/17/11',168],['09/18/11',110],['09/19/11',210],['09/20/11',110],['09/21/11',210],['09/22/11',241],['09/23/11',31],['09/24/11',110],['09/25/11',210],['09/26/11',241],['09/27/11',31],['09/28/11',131],['09/29/11',132],['09/30/11',530]];
+ 
+	      var ticks = ['09/01/11', '09/02/11', '09/03/11', '09/04/11', '09/05/11', '09/06/11', '09/07/11', '09/08/11', '09/09/11', '09/10/11', '09/11/11', '09/12/11', '09/13/11',
+	      '09/14/11','09/15/11','09/16/11','09/17/11','09/18/11','09/19/11','09/20/11','09/21/11','09/22/11','09/23/11','09/24/11','09/25/11','09/26/11','09/27/11','09/28/11','09/29/11','09/30/11'];
+	      plot1 = $.jqplot('chart1', [InPr, OutPr], {
+	      	title: '订单统计一览图', //标题
+	        //seriesDefaults:{neighborThreshold:0, showMarker: false},// fill:true 阴影显示 注释掉后会显示点
+	        series:[
+	          {label:'全部订单'},
+	          {label:'支付成功', yaxis:'y2axis'}
+	        ],
+	        cursor:{
+	          showVerticalLine:true,
+	          showTooltip: true,
+	          followMouse: true,
+	          showTooltipDataPosition:true,
+	          zoom:true,
+	          intersectionThreshold:6,
+	          tooltipFormatString: '%s 下单时间:%s, 订单量:%s'
+	        },
+	        legend:{
+	        	show: true,//显示 全部订单 支付成功
+	            location:'nw'
+	        },
+	        axesDefaults:{},
+	        axes: { 
+               yaxis: {min: yaxismin, numberTicks:numberTicksmax},//全部订单起始x坐标
+	           y2axis:{min: y2axismin, numberTicks:numberTicksmax},//支付订单起始x坐标
+	           xaxis: {
+	              renderer:$.jqplot.DateAxisRenderer, 
+	              ticks: ticks,
+	              tickOptions:{
+	              	formatString:'%m/%d',
+                    fontFamily:'Tahoma',
+                    angle:-30
+	              }  
+	          }
+	      }
+          
+      }); 
+      
+    });
+</script>
+		
+</head>
+<body>
+
+<div class="jqPlot" id="chart1" style="height:320px; width:1300px;"></div>
+ 
+</body>
+
+
+</html>
